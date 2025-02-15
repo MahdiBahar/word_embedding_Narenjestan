@@ -1,2 +1,4 @@
 fasttext
 hazm
+pandas
+openpyxl
