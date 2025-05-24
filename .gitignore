@@ -6,7 +6,7 @@ dataset/
 .myvenv11
 # C extensions
 *.so
-
+*.xlsx
 # Distribution / packaging
 .Python
 build/
