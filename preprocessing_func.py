@@ -58,8 +58,10 @@ def convert_ar_characters(input_str):
 
 
 def merge_mi_prefix(text):
-    
-    return re.sub(r'\b(ن?می)\s+(\S+)', r'\1\2', text)
+    zwnj = '\u200C'    # zero-width non-joiner
+    # note: replacement is NOT a raw string, so \u200C is interpreted properly
+    replacement = r'\1' + zwnj + r'\2'
+    return re.sub(r'\b(ن?می)\s+(\S+)', replacement, text)
 
 def remove_diacritics(text):
     # define regex for Persian diacritics (Unicode range: \u064B-\u0652)
