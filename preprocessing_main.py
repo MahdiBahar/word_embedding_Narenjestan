@@ -1,5 +1,5 @@
 
-from preprocessing_func import convert_fa_numbers, convert_ar_characters, convert_en_numbers
+from preprocessing_func import convert_fa_numbers, convert_ar_characters, convert_en_numbers,remove_phrases
 from preprocessing_func import  remove_diacritics, map_num_to_text, merge_mi_prefix, replace_multiple_space, remove_punctuation_except_keep
 from preprocessing_func import remove_half_space, remove_extra_charecter, remove_number, remove_punctuation, drop_short_sentences
 
@@ -22,7 +22,8 @@ def preprocess(text,
                replace_multiple_spaces = False,
                handle_prefix = False,
                map_number_to_text = False,
-               drop_short_phrases = 0
+               drop_short_phrases = 0,
+               remove_specific_phrases = None
                
                ):
     
@@ -83,4 +84,9 @@ def preprocess(text,
     if handle_prefix:
         text = merge_mi_prefix(text)
    
+#remove specific phrases
+    if remove_specific_phrases:
+        text = remove_phrases(text,remove_specific_phrases)
+
+
     return(text)

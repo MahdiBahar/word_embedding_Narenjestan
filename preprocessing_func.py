@@ -158,3 +158,26 @@ def drop_short_sentences(text: str, min_words: int = 0) -> str:
             kept.append(sent)
         # else: drop this sentence entirely
     return ' '.join(kept)
+
+
+
+def remove_phrases(text: str, phrases: List[str] = []) -> str:
+    """
+    Remove every exact occurrence of each phrase in `phrases` from `text`,
+    replacing it (and any adjacent whitespace) with a single space, then
+    collapsing any runs of spaces into one and trimming ends.
+    """
+    if not phrases:
+        return text.strip()
+    
+    # 1) Escape and join into an alternation
+    escaped = [re.escape(p) for p in phrases]
+    pattern = re.compile(
+        r'\s*(?:' + "|".join(escaped) + r')\s*'
+    )
+    
+    # 2) Delete them
+    cleaned = pattern.sub(' ', text)
+    # 3) Collapse multiple spaces, trim
+    cleaned = re.sub(r'\s+', ' ', cleaned).strip()
+    return cleaned
