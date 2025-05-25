@@ -141,3 +141,20 @@ def remove_punctuation_except_keep(
     cleaned = pattern.sub(" ", text)
     cleaned = re.sub(r"\s+", " ", cleaned).strip()
     return cleaned
+
+
+
+# Split sentences on . ! ? followed by whitespace
+_SENT_SPLIT = re.compile(r'(?<=[.!?])\s+')
+
+def drop_short_sentences(text: str, min_words: int = 0) -> str:
+ 
+    sentences = _SENT_SPLIT.split(text)
+    kept = []
+    for sent in sentences:
+        sent = sent.strip()
+        # count words by splitting on whitespace
+        if sent and len(sent.split()) >= min_words:
+            kept.append(sent)
+        # else: drop this sentence entirely
+    return ' '.join(kept)

@@ -1,7 +1,7 @@
 
 from preprocessing_func import convert_fa_numbers, convert_ar_characters, convert_en_numbers
 from preprocessing_func import  remove_diacritics, map_num_to_text, merge_mi_prefix, replace_multiple_space, remove_punctuation_except_keep
-from preprocessing_func import remove_half_space, remove_extra_charecter, remove_number, remove_punctuation
+from preprocessing_func import remove_half_space, remove_extra_charecter, remove_number, remove_punctuation, drop_short_sentences
 
 # import re
 
@@ -21,11 +21,17 @@ def preprocess(text,
                remove_punctuation_exception_keep = None ,
                replace_multiple_spaces = False,
                handle_prefix = False,
-               map_number_to_text = False
+               map_number_to_text = False,
+               drop_short_phrases = 0
                
                ):
     
     text = text.strip()
+
+    if drop_short_phrases>0:
+
+        text = drop_short_sentences(text, drop_short_phrases)
+
 
     if convert_farsi_numbers:
         text = convert_fa_numbers(text)
