@@ -1,6 +1,6 @@
 
 from preprocessing_func import convert_fa_numbers, convert_ar_characters, convert_en_numbers
-from preprocessing_func import  remove_diacritics, map_num_to_text, merge_mi_prefix, replace_multiple_space, remove_punctuaction_except
+from preprocessing_func import  remove_diacritics, map_num_to_text, merge_mi_prefix, replace_multiple_space, remove_punctuation_except_keep
 from preprocessing_func import remove_half_space, remove_extra_charecter, remove_number, remove_punctuation
 
 # import re
@@ -18,7 +18,7 @@ def preprocess(text,
                remove_extra_characters = False,
                remove_numbers = False,
                remove_punctuations = False,
-               remove_punctuation_exception = True,
+               remove_punctuation_exception_keep = None ,
                replace_multiple_spaces = False,
                handle_prefix = False,
                map_number_to_text = False
@@ -66,8 +66,8 @@ def preprocess(text,
         text = remove_punctuation(text)
 
 # remove punctuation exception
-    if remove_punctuation_exception:
-        text = remove_punctuaction_except(text)
+    if remove_punctuation_exception_keep:
+        text = remove_punctuation_except_keep(text, remove_punctuation_exception_keep)
 
 # replace multiple spaces with one space
     if replace_multiple_spaces:

@@ -1,5 +1,5 @@
 import re
-
+from typing import List, Optional
 import string
 
 def _multiple_replace(mapping, text):
@@ -106,12 +106,38 @@ def map_num_to_text(text):
     return text 
 #--------------------------------------------------------------------------------------------------------
 
-def remove_punctuaction_except(text):
-    # start with the ASCII punctuation minus the parentheses
-    punctuation = string.punctuation.replace("(", "").replace(")", "")
-    # add common Persian punctuation characters
-    punctuation += "،؟؛«»"
-    # create a character set pattern from the punctuation characters
-    pattern = "[" + re.escape(punctuation) + "]"
-    # replace every punctuation character in the pattern with a space
-    return re.sub(pattern, " ", text)
+# def remove_punctuaction_except(text):
+#     # start with the ASCII punctuation minus the parentheses
+#     punctuation = string.punctuation.replace("(", "").replace(")", "")
+#     # add common Persian punctuation characters
+#     punctuation += "،؟؛«»"
+#     # create a character set pattern from the punctuation characters
+#     pattern = "[" + re.escape(punctuation) + "]"
+#     # replace every punctuation character in the pattern with a space
+#     return re.sub(pattern, " ", text)
+
+
+def remove_punctuation_except_keep(
+    text: str,
+    keep: Optional[List[str]] = None
+) -> str:
+    # Determine which chars to keep 
+    default_keep = []
+    # default_keep = ['(', ')', '،', '؟', '؛', '«', '»']
+    keep_set = set(keep) if keep is not None else set(default_keep)
+
+    # Build the full punctuation set
+    ascii_punct   = set(string.punctuation)                    # !"#$%&'()*+,...@
+    persian_punct = set(list("،؟؛«»"))                         # common Persian punctuation
+    all_punct     = ascii_punct | persian_punct
+
+    # Compute which to remove
+    remove_chars = all_punct - keep_set
+
+    # Build regex and clean 
+    # [chars]+ will match any run of unwanted punctuation
+    pattern = re.compile("[" + re.escape("".join(remove_chars)) + "]+")
+    # replace with a single space, then collapse multiple spaces
+    cleaned = pattern.sub(" ", text)
+    cleaned = re.sub(r"\s+", " ", cleaned).strip()
+    return cleaned
