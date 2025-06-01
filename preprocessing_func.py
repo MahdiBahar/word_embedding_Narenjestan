@@ -162,11 +162,6 @@ def drop_short_sentences(text: str, min_words: int = 0) -> str:
 
 
 def remove_phrases(text: str, phrases: List[str] = []) -> str:
-    """
-    Remove every exact occurrence of each phrase in `phrases` from `text`,
-    replacing it (and any adjacent whitespace) with a single space, then
-    collapsing any runs of spaces into one and trimming ends.
-    """
     if not phrases:
         return text.strip()
     
