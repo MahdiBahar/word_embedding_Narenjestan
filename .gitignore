@@ -6,6 +6,7 @@ __pycache__/
 *$py.class
 dataset/
 .myvenv11
+/Tagged_comparison
 # C extensions
 *.so
 *.xlsx
