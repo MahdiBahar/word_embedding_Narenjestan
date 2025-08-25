@@ -7,6 +7,8 @@ __pycache__/
 dataset/
 .myvenv11
 /Tagged_comparison
+/Tagged_tokens
+/lemm_tokens_stanza
 # C extensions
 *.so
 *.xlsx
