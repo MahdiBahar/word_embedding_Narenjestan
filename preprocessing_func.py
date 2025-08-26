@@ -106,17 +106,6 @@ def map_num_to_text(text):
     return text 
 #--------------------------------------------------------------------------------------------------------
 
-# def remove_punctuaction_except(text):
-#     # start with the ASCII punctuation minus the parentheses
-#     punctuation = string.punctuation.replace("(", "").replace(")", "")
-#     # add common Persian punctuation characters
-#     punctuation += "،؟؛«»"
-#     # create a character set pattern from the punctuation characters
-#     pattern = "[" + re.escape(punctuation) + "]"
-#     # replace every punctuation character in the pattern with a space
-#     return re.sub(pattern, " ", text)
-
-
 def remove_punctuation_except_keep(
     text: str,
     keep: Optional[List[str]] = None
@@ -181,7 +170,7 @@ def remove_phrases(text: str, phrases: List[str] = []) -> str:
 import re
 
 # English + Persian punctuation to pad
-PUNCT_CLASS = r'\.,/"\"!?:;،؟؛«»()\[\]{}"\'…'
+PUNCT_CLASS = r'-\*\.,/"\"!?:;،؟؛«»()\[\]{}"\'…'
 
 def add_space_punc(text: str) -> str:
     # 1) ensure a space BEFORE each punctuation (if not already)
@@ -190,6 +179,28 @@ def add_space_punc(text: str) -> str:
     text = re.sub(rf'([{PUNCT_CLASS}])(?!\s)', r'\1 ', text)
     # 3) clean up
     return re.sub(r'\s+', ' ', text).strip()
+
+def remove_space_after_words(text:str, words: List[str] = []) -> str:
+    for word in words:
+        # match "word + space(s)" and replace with "word"
+        pattern = rf"{word}\s+"
+        text = re.sub(pattern, word, text)
+    return text
+
+
+## replace space with half space
+def replace_before_spaces_with_halfspace(text:str, words: List[str] = []) -> str:
+    for word in words:
+        # Match "space + word" and replace with "half-space + word"
+        pattern = rf"\s+{word}"
+        text = re.sub(pattern, f"\u200c{word}", text)
+    return text
+
+# remove ها / های / هایی
+def remove_ha_s_suffix(text):
+
+    pattern = r'(?:\s|‌)?ها(?:ی(?:ی)?)?\b'
+    return re.sub(pattern, '', text)
 
 # Quick check
 # text = """چک برگشتی و ضمانتنامه بلاتکلیف (صرفا ضمانتنامه) نزد سپام می‌باشد ."

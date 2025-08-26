@@ -1,8 +1,8 @@
 
-from preprocessing_func import convert_fa_numbers, convert_ar_characters, convert_en_numbers,remove_phrases, add_space_punc
+from preprocessing_func import convert_fa_numbers, convert_ar_characters, convert_en_numbers,remove_phrases, add_space_punc, remove_space_after_words
 from preprocessing_func import  remove_diacritics, map_num_to_text, merge_mi_prefix, replace_multiple_space, remove_punctuation_except_keep
-from preprocessing_func import remove_half_space, remove_extra_charecter, remove_number, remove_punctuation, drop_short_sentences
-
+from preprocessing_func import remove_half_space, remove_extra_charecter, remove_number, remove_punctuation, drop_short_sentences, replace_before_spaces_with_halfspace
+from preprocessing_func import remove_ha_s_suffix
 # import re
 
 
@@ -24,7 +24,10 @@ def preprocess(text,
                map_number_to_text = False,
                drop_short_phrases = 0,
                remove_specific_phrases = None,
-               add_spaces_punc = False
+               add_spaces_punc = False,
+               remove_space_after_word = None,
+               replace_before_space_with_half_space = None,
+               remove_ha_suffix = True
                ):
     
     text = text.strip()
@@ -90,5 +93,19 @@ def preprocess(text,
 
     if add_spaces_punc:
         text = add_space_punc(text)
+
+#remove space after list of words
+
+    if remove_space_after_word:
+        text = remove_space_after_words(text,remove_space_after_word)
+
+#replace before space with half space
+
+    if replace_before_space_with_half_space:
+        text = replace_before_spaces_with_halfspace(text,replace_before_space_with_half_space)
+
+# remove ha suffix
+    if remove_ha_suffix:
+        text = remove_ha_s_suffix(text)
 
     return(text)
