@@ -2,3 +2,6 @@ fasttext
 hazm
 pandas
 openpyxl
+
+### Install Dadmatools
+dadmatools[full]
