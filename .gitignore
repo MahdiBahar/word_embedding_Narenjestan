@@ -10,6 +10,7 @@ dataset/
 /Tagged_comparison
 /Tagged_tokens
 /lemm_tokens_stanza
+/KG/results
 # C extensions
 *.so
 *.xlsx
